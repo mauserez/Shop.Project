@@ -457,6 +457,60 @@ productsRouter.post(
 
 productsRouter.post(
 	"/remove-similar",
+	[
+		body(
+			null,
+			"Payload must be an array of {productId:UUID,similarProductId:UUID}"
+		).isArray(),
+		body("*.productId", "must be UUID").isUUID(),
+		body("*.similarProductId", "must be UUID").isUUID(),
+	],
+	async (req: Request<{}, {}, SimilarProductPayload>, res: Response) => {
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return res.status(422).json({ errors: errors.array() });
+			}
+
+			const similar = req.body;
+
+			const ids = [];
+			const removeSimilar = () => {
+				const promises = [];
+				similar.map((i) => {
+					ids.push(i.productId);
+					promises.push(
+						connection.query<OkPacket>(DELETE_SIMILAR_PRODUCTS_BY_IDS_QUERY, [
+							i.productId,
+							i.similarProductId,
+						])
+					);
+				});
+
+				return promises;
+			};
+
+			await Promise.all(removeSimilar())
+				.then(() => {
+					res.status(201);
+					res.send(
+						`Similar Products for Products with ids:${ids.join(
+							","
+						)} has been removed!`
+					);
+				})
+				.catch((e) => {
+					res.status(400);
+					res.send(e.message);
+				});
+		} catch (e) {
+			throwServerError(res, e);
+		}
+	}
+);
+
+productsRouter.post(
+	"/remove-similar-links",
 	[body(null, "Payload must be array of UUID").isArray()],
 	async (req: Request<{}, {}, SimilarProductPayload>, res: Response) => {
 		try {
