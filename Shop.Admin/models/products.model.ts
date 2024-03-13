@@ -2,98 +2,181 @@ import axios from "axios";
 import { IProduct, IProductFilterPayload } from "@Shared/types";
 import { IProductEditData } from "../types";
 import { API_HOST } from "./const";
+import {
+	SimilarProductPayload,
+	SimilarLinkProductRemovePayload,
+	ProductId,
+} from "../../Shop.API/types";
 
 export async function getProducts(): Promise<IProduct[]> {
-  const { data } = await axios.get<IProduct[]>(`${API_HOST}/products`);
-  return data || [];
+	const { data } = await axios.get<IProduct[]>(`${API_HOST}/products`);
+	return data || [];
 }
 
 export async function searchProducts(
-  filter: IProductFilterPayload
+	filter: IProductFilterPayload
 ): Promise<IProduct[]> {
-  const { data } = await axios.get<IProduct[]>(
-    `${API_HOST}/products/search`,
-    { params: filter }
-  );
-  return data || [];
+	const { data } = await axios.get<IProduct[]>(`${API_HOST}/products/search`, {
+		params: filter,
+	});
+	return data || [];
 }
 
-export async function getProduct(
-  id: string
-): Promise<IProduct | null> {
-  try {
-    const { data } = await axios.get<IProduct>(
-      `${API_HOST}/products/${id}`
-    );
-    return data;
-  } catch (e) {
-    return null;
-  }
+export async function getProduct(id: string): Promise<IProduct | null> {
+	try {
+		const { data } = await axios.get<IProduct>(`${API_HOST}/products/${id}`);
+		return data;
+	} catch (e) {
+		return null;
+	}
 }
 
 export async function removeProduct(id: string): Promise<void> {
-  await axios.delete(`${API_HOST}/products/${id}`);
+	await axios.delete(`${API_HOST}/products/${id}`);
 }
 
 function splitNewImages(str = ""): string[] {
-  return str
-    .split(/\r\n|,/g)
-    .map(url => url.trim())
-    .filter(url => url);
+	return str
+		.split(/\r\n|,/g)
+		.map((url) => url.trim())
+		.filter((url) => url);
 }
 
 function compileIdsToRemove(data: string | string[]): string[] {
-  if (typeof data === "string") return [data];
-  return data;
+	if (typeof data === "string") return [data];
+	return data;
 }
 
 export async function updateProduct(
-  productId: string,
-  formData: IProductEditData
+	productId: string,
+	formData: IProductEditData
 ): Promise<void> {
-  try {
-    const { data: currentProduct } = await axios.get<IProduct>(`${API_HOST}/products/${productId}`);
+	try {
+		const { data: currentProduct } = await axios.get<IProduct>(
+			`${API_HOST}/products/${productId}`
+		);
 
-    if (formData.commentsToRemove) {
-      const commentsIdsToRemove = compileIdsToRemove(formData.commentsToRemove);
+		//add similar
+		if (formData.similarToAdd) {
+			let similarToAdd = [];
 
-      const getDeleteCommentActions = () => commentsIdsToRemove.map(commentId => {
-        return axios.delete(`${API_HOST}/comments/${commentId}`);
-      });
+			if (Array.isArray(formData.similarToAdd)) {
+				similarToAdd = formData.similarToAdd;
+			} else {
+				similarToAdd = [formData.similarToAdd];
+			}
 
-      await Promise.all(getDeleteCommentActions());
-    }
+			const addSimilar: SimilarProductPayload = [];
 
-    if (formData.imagesToRemove) {
-      const imagesIdsToRemove = compileIdsToRemove(formData.imagesToRemove);
-      await axios.post(`${API_HOST}/products/remove-images`, imagesIdsToRemove);
-    }
+			similarToAdd.map((similarProductId) => {
+				addSimilar.push({
+					productId: productId,
+					similarProductId: similarProductId,
+				});
+			});
 
-    if (formData.newImages) {
-      const urls = splitNewImages(formData.newImages);
+			await axios.post(`${API_HOST}/products/add-similar`, addSimilar);
+		}
 
-      const images = urls.map(url => ({ url, main: false }));
+		//remove similar
+		if (formData.similarToRemove) {
+			let similarToRemove = [];
 
-      if (!currentProduct.thumbnail) {
-        images[0].main = true;
-      }
+			if (Array.isArray(formData.similarToRemove)) {
+				similarToRemove = formData.similarToRemove;
+			} else {
+				similarToRemove = [formData.similarToRemove];
+			}
 
-      await axios.post(`${API_HOST}/products/add-images`, { productId, images });
-    }
+			const removeSimilar: SimilarLinkProductRemovePayload = [];
 
-    if (formData.mainImage && formData.mainImage !== currentProduct.thumbnail?.id) {
-      await axios.post(`${API_HOST}/products/update-thumbnail/${productId}`, {
-        newThumbnailId: formData.mainImage
-      });
-    }
+			similarToRemove.map((similarProductId) => {
+				removeSimilar.push({
+					productId: productId,
+					similarProductId: similarProductId,
+				});
+			});
 
-    await axios.patch(`${API_HOST}/products/${productId}`, {
-      title: formData.title,
-      description: formData.description,
-      price: Number(formData.price)
-    });
-  } catch (e) {
-    console.log(e);
-  }
+			await axios.post(`${API_HOST}/products/remove-similar`, removeSimilar);
+		}
+
+		//remove comments
+		if (formData.commentsToRemove) {
+			const commentsIdsToRemove = compileIdsToRemove(formData.commentsToRemove);
+
+			const getDeleteCommentActions = () =>
+				commentsIdsToRemove.map((commentId) => {
+					return axios.delete(`${API_HOST}/comments/${commentId}`);
+				});
+
+			await Promise.all(getDeleteCommentActions());
+		}
+
+		//remove images
+		if (formData.imagesToRemove) {
+			const imagesIdsToRemove = compileIdsToRemove(formData.imagesToRemove);
+			await axios.post(`${API_HOST}/products/remove-images`, imagesIdsToRemove);
+		}
+
+		//add images
+		if (formData.newImages) {
+			const urls = splitNewImages(formData.newImages);
+
+			const images = urls.map((url) => ({ url, main: false }));
+
+			if (!currentProduct.thumbnail) {
+				images[0].main = true;
+			}
+
+			await axios.post(`${API_HOST}/products/add-images`, {
+				productId,
+				images,
+			});
+		}
+
+		//set main image
+		if (
+			formData.mainImage &&
+			formData.mainImage !== currentProduct.thumbnail?.id
+		) {
+			await axios.post(`${API_HOST}/products/update-thumbnail/${productId}`, {
+				newThumbnailId: formData.mainImage,
+			});
+		}
+
+		//update product main fields
+		await axios.patch(`${API_HOST}/products/${productId}`, {
+			title: formData.title,
+			description: formData.description,
+			price: Number(formData.price),
+		});
+	} catch (e) {
+		console.log(e);
+	}
 }
 
+export async function addProduct(
+	formData: IProductEditData
+): Promise<ProductId> {
+	try {
+		//save new product main fields
+
+		let images = [];
+		//add images
+		if (formData.newImages) {
+			const urls = splitNewImages(formData.newImages);
+			images = urls.map((url) => ({ url, main: false }));
+		}
+
+		const response = await axios.post<ProductId>(`${API_HOST}/products`, {
+			title: formData.title,
+			description: formData.description,
+			price: Number(formData.price),
+			images: images,
+		});
+
+		return response.data;
+	} catch (e) {
+		console.log(e);
+	}
+}

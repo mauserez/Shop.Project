@@ -1,3 +1,4 @@
+import { IProduct } from "@Shared/types";
 import { Request, Response, Router } from "express";
 import { connection } from "../../index";
 import { v4 as uuidv4 } from "uuid";
@@ -13,6 +14,7 @@ import {
 	IProductEntity,
 	IProductImageEntity,
 	IProductSearchFilter,
+	ISimilarProductEntity,
 	ProductAddImagesPayload,
 	ProductCreatePayload,
 	SimilarProductPayload,
@@ -32,6 +34,7 @@ import {
 	INSERT_SIMILAR_PRODUCTS_QUERY,
 	DELETE_SIMILAR_PRODUCTS_BY_IDS_QUERY,
 	DELETE_SIMILAR_PRODUCTS_QUERY,
+	OTHER_PRODUCTS_EXCLUDE_SIMILAR_QUERY,
 } from "../services/queries";
 
 import { body, param, validationResult } from "express-validator";
@@ -121,7 +124,20 @@ productsRouter.get(
 				[req.params.id]
 			);
 
+			const [similar] = await connection.query<ISimilarProductEntity[]>(
+				GET_SIMILAR_PRODUCTS_QUERY,
+				[req.params.id, req.params.id]
+			);
+
+			const [otherProducts] = await connection.query<ISimilarProductEntity[]>(
+				OTHER_PRODUCTS_EXCLUDE_SIMILAR_QUERY,
+				[req.params.id, req.params.id, req.params.id]
+			);
+
 			const product = mapProductsEntity(rows)[0];
+
+			product.similar = similar;
+			product.otherProducts = otherProducts;
 
 			if (comments.length) {
 				product.comments = mapCommentsEntity(comments);
@@ -145,6 +161,7 @@ productsRouter.post(
 	async (req: Request<{}, {}, ProductCreatePayload>, res: Response) => {
 		try {
 			const { title, description, price, images } = req.body;
+
 			const productId = uuidv4();
 			await connection.query<OkPacket>(INSERT_PRODUCT_QUERY, [
 				productId,
@@ -153,7 +170,7 @@ productsRouter.post(
 				price || null,
 			]);
 
-			if (images) {
+			if (images && images.length > 0) {
 				const values = images.map((image) => [
 					uuidv4(),
 					image.url,
@@ -164,7 +181,7 @@ productsRouter.post(
 			}
 
 			res.status(201);
-			res.send(`Product id:${productId} has been added!`);
+			res.send(productId);
 		} catch (e) {
 			throwServerError(res, e);
 		}
@@ -510,7 +527,7 @@ productsRouter.post(
 );
 
 productsRouter.post(
-	"/remove-similar-links",
+	"/remove-similar-all",
 	[body(null, "Payload must be array of UUID").isArray()],
 	async (req: Request<{}, {}, SimilarProductPayload>, res: Response) => {
 		try {

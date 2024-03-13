@@ -17,7 +17,7 @@ export const INSERT_PRODUCT_QUERY = `
   INSERT INTO products
   (product_id, title, description, price)
   VALUES
-  (?, ?, ?, ?)
+  (?, ?, trim(?), ?)
 `;
 
 export const INSERT_PRODUCT_IMAGES_QUERY = `
@@ -49,7 +49,7 @@ export const UPDATE_PRODUCT_FIELDS = `
 
 export const GET_SIMILAR_PRODUCTS_QUERY = `
   SELECT
-    p.product_id,
+    p.product_id as productId,
     p.title,
     p.description,
     p.price
@@ -76,4 +76,24 @@ export const DELETE_SIMILAR_PRODUCTS_BY_IDS_QUERY = `
 export const DELETE_SIMILAR_PRODUCTS_QUERY = `
   DELETE FROM similar_products
   WHERE product_id = ? or similar_product_id = ?
+`;
+
+export const OTHER_PRODUCTS_EXCLUDE_SIMILAR_QUERY = `
+  SELECT
+    distinct
+    p.product_id as productId,
+    p.title,
+    p.price,
+    p.description
+  FROM
+  products p
+  JOIN (
+    SELECT
+      p.product_id
+    FROM products p
+    JOIN similar_products sp on
+    (p.product_id = sp.similar_product_id and sp.product_id = ?)
+    or
+    (p.product_id = sp.product_id and sp.similar_product_id = ?)
+  ) v on p.product_id != v.product_id and p.product_id <> ?
 `;

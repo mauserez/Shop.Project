@@ -1,4 +1,7 @@
-<div><a href="<%= `/${process.env.ADMIN_PATH}` %>">Back</a></div>
+<div>
+	<a href="<%= `/${process.env.ADMIN_PATH}` %>">Back</a>
+</div>
+
 <h1><%= item.title %></h1>
 <form action="<%= `save/${item.id}` %>" method="post" class="product-edit-form">
 	<div class="product-edit-fields">
@@ -14,9 +17,13 @@
 
 		<div class="field">
 			<label for="item-description">Description:</label>
-			<textarea id="item-description" rows="3" name="description">
-                <%= item.description %>
-            </textarea
+			<textarea
+				style="white-space: normal"
+				id="item-description"
+				rows="3"
+				name="description"
+			>
+<%= item.description %></textarea
 			>
 		</div>
 
@@ -44,7 +51,31 @@
 		<% item.comments.forEach(function(comment) { %> <%-
 		include('product-comment', { comment: comment }) %> <% }); %>
 	</div>
-	<% } %> <% if (item.images?.length) { %>
+	<% } %>
+
+	<span></span>
+
+	<% if (item.similar?.length) { %>
+	<h2>Similar products</h2>
+	<div class="similar-products">
+		<% item.similar.forEach(function(product) { %> <%-
+		include('similar-product', { product: product }) %> <% }); %>
+	</div>
+	<% } %>
+
+	<span></span>
+
+	<% if (item.otherProducts?.length) { %>
+	<h2>Other products</h2>
+	<div class="other-products">
+		<% item.otherProducts.forEach(function(product) { %> <%-
+		include('other-product', { product: product }) %> <% }); %>
+	</div>
+	<% } %>
+
+	<span></span>
+
+	<% if (item.images?.length) { %>
 	<h2>Images</h2>
 	<div class="product-edit-images">
 		<% item.images.forEach(function(image) { %> <%- include('product-image', {

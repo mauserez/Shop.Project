@@ -1,0 +1,17 @@
+<div class="similar-product">
+	<div class="body">
+		<strong><%= product.title %></strong>
+		<div><%= product.price %></div>
+		<div><%= product.description %></div>
+	</div>
+
+	<div class="remove-mark">
+		<label for="<%= product.productId %>">Mark to remove</label>
+		<input
+			type="checkbox"
+			id="<%= product.productId %>"
+			value="<%= product.productId %>"
+			name="similarToRemove"
+		/>
+	</div>
+</div>

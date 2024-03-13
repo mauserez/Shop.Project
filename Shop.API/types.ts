@@ -9,7 +9,7 @@ import {
 
 export type CommentCreatePayload = Omit<IComment, "id">;
 
-type ProductId = string;
+export type ProductId = string;
 
 export interface ICommentEntity extends RowDataPacket {
 	comment_id: string;
@@ -50,9 +50,28 @@ export interface IUserRequisitesEntity extends IAuthRequisites, RowDataPacket {
 	id: number;
 }
 
+export interface ISimilarProductEntity extends RowDataPacket {
+	productId: string;
+	title: string;
+	description: string;
+	price: number;
+}
+
 export type SimilarProductPayload = {
 	productId: ProductId;
 	similarProductId: string;
 }[];
 
+export type SimilarLinkProductRemovePayload = {
+	productId: ProductId;
+	similarProductId: string;
+}[];
+
 export type SimilarProductDeletePayload = ProductId[];
+
+export interface IOtherProductEntity extends RowDataPacket {
+	productId: string;
+	title: string;
+	description: string;
+	price: number;
+}

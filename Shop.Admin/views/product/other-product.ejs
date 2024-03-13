@@ -1,0 +1,17 @@
+<div class="other-product">
+	<div class="body">
+		<strong><%= product.title %></strong>
+		<div><%= product.price %></div>
+		<div><%= product.description %></div>
+	</div>
+
+	<div class="add-mark">
+		<label for="<%= product.productId %>">Add to similar</label>
+		<input
+			type="checkbox"
+			id="<%= product.productId %>"
+			value="<%= product.productId %>"
+			name="similarToAdd"
+		/>
+	</div>
+</div>
