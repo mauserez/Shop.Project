@@ -1,0 +1,18 @@
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: center;
+}
+
+.buttons {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+}
+
+.productValue {
+	font-size: 32px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
