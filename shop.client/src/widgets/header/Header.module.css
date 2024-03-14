@@ -1,0 +1,19 @@
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	flex-wrap: wrap;
+	gap: 16px;
+}
+
+.logo {
+	font-size: 32px;
+	font-weight: bold;
+}
+
+.nav {
+	display: flex;
+	gap: 32px;
+	align-items: center;
+}

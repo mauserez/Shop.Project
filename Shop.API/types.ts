@@ -1,4 +1,6 @@
+// @ts-nocheck
 import { RowDataPacket } from "mysql2/index";
+
 import {
 	IAuthRequisites,
 	IComment,

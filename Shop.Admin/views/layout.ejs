@@ -16,6 +16,7 @@
 		<header class="header">
 			<div class="logo"></div>
 			<div class="header-buttons">
+				<a href="<%= `${process.env.CLIENT_PATH}` %>">Client</a>
 				<% if (user) { %>
 				<a href="<%= `/${process.env.ADMIN_PATH}/new-product` %>"
 					>Add product</a

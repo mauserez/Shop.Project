@@ -11,8 +11,6 @@ export const getData = async <T>(
 		backendApi.defaults.baseURL = apiUrl;
 	}
 
-	console.log(endpoint);
-
 	try {
 		const result = await backendApi.get<T>(endpoint, config);
 		const data = result.data;
