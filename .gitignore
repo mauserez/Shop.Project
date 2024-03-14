@@ -1,5 +1,5 @@
 /.DS_Store
 /.env
-/node_modules
 /Shop.Admin/node_modules
 /Shop.API/node_modules
+/node_modules

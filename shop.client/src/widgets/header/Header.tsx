@@ -1,4 +1,4 @@
-import { ADMIN_URL } from "@/shared/const";
+import { ADMIN_URL } from "@/shared/api-const";
 import Link from "next/link";
 import s from "./Header.module.css";
 import { Button } from "@/shared/ui/button/Button";

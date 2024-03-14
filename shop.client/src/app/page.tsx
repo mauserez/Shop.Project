@@ -1,7 +1,7 @@
 import { IProduct } from "@SharedTypes";
 import { getData } from "@/shared/helpers/get";
 import { calcCountAndSum } from "@/entities/products/helpers";
-import { ADMIN_URL } from "@/shared/const";
+import { ADMIN_URL } from "@/shared/api-const";
 import { Button } from "@/shared/ui/button/Button";
 import Link from "next/link";
 

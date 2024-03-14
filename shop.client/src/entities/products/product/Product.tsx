@@ -19,6 +19,7 @@ export const Product = (props: ProductProps) => {
 		<div className={clsx(s.product, className)} {...otherProps}>
 			<div className={s.image}>
 				<Image
+					style={{ objectFit: "cover" }}
 					sizes="100%"
 					fill={true}
 					priority={true}

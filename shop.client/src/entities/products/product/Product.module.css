@@ -36,6 +36,7 @@
 
 .price {
 	font-size: 24px;
+	font-weight: bold;
 	display: flex;
 	align-items: baseline;
 	gap: 5px;

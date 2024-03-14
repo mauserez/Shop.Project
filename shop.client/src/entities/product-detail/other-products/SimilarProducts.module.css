@@ -1,0 +1,21 @@
+.container {
+	display: flex;
+	gap: 24px;
+}
+
+.title {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.price {
+	font-size: 20px;
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+}
+
+.priceIcon {
+	font-size: 16px;
+	margin-top: 3px;
+}

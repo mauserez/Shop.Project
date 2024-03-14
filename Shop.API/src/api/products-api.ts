@@ -120,7 +120,7 @@ productsRouter.get(
 			);
 
 			const [images] = await connection.query<IProductImageEntity[]>(
-				"SELECT * FROM images WHERE product_id = ?",
+				"SELECT * FROM images WHERE product_id = ? order by main desc",
 				[req.params.id]
 			);
 
