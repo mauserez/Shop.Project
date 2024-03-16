@@ -115,7 +115,7 @@ productsRouter.get(
 			}
 
 			const [comments] = await connection.query<ICommentEntity[]>(
-				"SELECT * FROM comments WHERE product_id = ?",
+				"SELECT * FROM comments WHERE product_id = ? order by dt desc",
 				[req.params.id]
 			);
 

@@ -1,5 +1,6 @@
-import { ComponentProps } from "react";
 import { IProduct } from "@SharedTypes";
+
+import { ComponentProps } from "react";
 import Link from "next/link";
 import { FaRubleSign } from "react-icons/fa";
 
@@ -12,8 +13,8 @@ type SimilarProductsProps = ComponentProps<"div"> & {
 export const SimilarProducts = (props: SimilarProductsProps) => {
 	const { products, ...otherProps } = props;
 
-	if (!products) {
-		return null;
+	if (!products || products.length === 0) {
+		return <h3>К сожалению мы не нашли похожих товаров</h3>;
 	}
 
 	return (

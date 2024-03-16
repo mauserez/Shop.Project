@@ -12,23 +12,25 @@
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
+	padding-bottom: 16px;
 }
 
 .subInfo {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	gap: 32px;
 }
 
 .price {
-	font-size: 32px;
+	font-size: 48px;
 	font-weight: bold;
 	align-self: flex-end;
-	justify-content: center;
+	margin-bottom: -10px;
 }
 
 .priceIcon {
-	font-size: 24px;
+	font-size: 32px;
 }
 
 .slider {
@@ -38,7 +40,7 @@
 @media screen and (min-width: 768px) {
 	.info {
 		display: grid;
-		grid-template-columns: 55% 1fr;
+		grid-template-columns: 50% 1fr;
 	}
 }
 
@@ -48,4 +50,14 @@
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
+}
+
+.comments {
+	max-width: 768px;
+}
+
+.commentsContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 48px;
 }

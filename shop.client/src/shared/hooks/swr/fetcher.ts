@@ -1,9 +1,9 @@
 import { backendApi } from "@/shared/axios/backend";
 import queryString from "query-string";
 
-type getDataOptionsType = [string, string | {}, string];
+type GetDataOptionsType = [string, string | {}, string];
 
-export const fetcher = async <T>(options: getDataOptionsType) => {
+export const fetcher = async <T>(options: GetDataOptionsType) => {
 	const [endpoint, params, apiUrl] = options;
 
 	const prms = typeof params === "string" ? queryString.parse(params) : params;

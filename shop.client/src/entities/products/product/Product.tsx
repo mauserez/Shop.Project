@@ -1,7 +1,7 @@
 import { ComponentProps } from "react";
 import Image from "next/image";
 import { IProduct } from "@SharedTypes";
-import { BiComment } from "react-icons/bi";
+import { BiComment, BiSolidChat } from "react-icons/bi";
 
 import clsx from "clsx";
 import s from "./Product.module.css";
@@ -32,7 +32,7 @@ export const Product = (props: ProductProps) => {
 				<div className={s.subDetails}>
 					<div className={s.commentCount}>
 						{product.comments?.length || 0}
-						<BiComment />
+						<BiSolidChat />
 					</div>
 					<div className={s.price}>
 						{product.price}{" "}

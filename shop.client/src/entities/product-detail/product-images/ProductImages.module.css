@@ -7,6 +7,10 @@
 	background-size: cover;
 	background-position: center;
 }
+.mainSwiper :global(.swiper-button-next),
+.mainSwiper :global(.swiper-button-prev) {
+	color: #666;
+}
 
 .subSwiper {
 	height: 20%;

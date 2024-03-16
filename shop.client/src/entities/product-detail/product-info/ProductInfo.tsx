@@ -1,11 +1,12 @@
 "use client";
-import { useSWRGeneral } from "@/shared/hooks/swr/useSWRGeneral";
 import { IProduct } from "@SharedTypes";
-import { ComponentProps } from "react";
-import { notFound } from "next/navigation";
-import { ProductImages, SimilarProducts } from "..";
-import { FaRubleSign } from "react-icons/fa";
 
+import { useSWRGeneral } from "@/shared/hooks/swr/useSWRGeneral";
+import { ComponentProps, useEffect, useState } from "react";
+import { CommentForm, Comments, ProductImages, SimilarProducts } from "..";
+
+import { notFound } from "next/navigation";
+import { FaRubleSign } from "react-icons/fa";
 import s from "./ProductInfo.module.css";
 
 type ProductInfoProps = {
@@ -15,8 +16,15 @@ type ProductInfoProps = {
 export const ProductInfo = (props: ProductInfoProps) => {
 	const { productId, ...otherProps } = props;
 
-	const { data: product, isLoading: isProductLoading } =
-		useSWRGeneral<IProduct>(`/products/${productId}`);
+	const {
+		data: product,
+		isLoading: isProductLoading,
+		mutate,
+	} = useSWRGeneral<IProduct>(`/products/${productId}`);
+
+	const [comments, setComments] = useState(product?.comments);
+
+	useEffect(() => {});
 
 	if (isProductLoading) {
 		return "Loading...";
@@ -50,10 +58,14 @@ export const ProductInfo = (props: ProductInfoProps) => {
 
 				<div className={s.similar}>
 					<h2>Похожие товары</h2>
-					<SimilarProducts products={product.similar} />
+					<SimilarProducts products={product.similar || []} />
 				</div>
 				<div className={s.comments}>
 					<h2>Комментарии</h2>
+					<div className={s.commentsContainer}>
+						<CommentForm refreshComments={mutate} productId={productId} />
+						<Comments comments={product.comments || []} />
+					</div>
 				</div>
 			</div>
 		</>

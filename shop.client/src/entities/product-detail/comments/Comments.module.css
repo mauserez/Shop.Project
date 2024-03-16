@@ -1,0 +1,21 @@
+.commentList {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.comment {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	border: 1px solid var(--border-color);
+	border-radius: 9px;
+	padding: 24px;
+}
+
+.titleContainer {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	font-size: 18px;
+}
