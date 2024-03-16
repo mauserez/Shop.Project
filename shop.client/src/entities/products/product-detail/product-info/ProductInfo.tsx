@@ -8,6 +8,7 @@ import { CommentForm, Comments, ProductImages, SimilarProducts } from "..";
 import { notFound } from "next/navigation";
 import { FaRubleSign } from "react-icons/fa";
 import s from "./ProductInfo.module.css";
+import clsx from "clsx";
 
 type ProductInfoProps = {
 	productId: string;
@@ -34,7 +35,13 @@ export const ProductInfo = (props: ProductInfoProps) => {
 
 	return (
 		<>
-			<div className={s.wrap} {...otherProps}>
+			<div
+				className={clsx({
+					[s.wrap]: true,
+					"fade-in": !isProductLoading,
+				})}
+				{...otherProps}
+			>
 				<h1>{product?.title}</h1>
 				<div className={s.info}>
 					<div className={s.slider}>

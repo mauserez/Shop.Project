@@ -5,10 +5,10 @@ import { AxiosRequestConfig } from "axios";
 export const getData = async <T>(
 	endpoint: string,
 	config: AxiosRequestConfig = {},
-	apiUrl: string | null = null
+	anotherApi: string | null = null
 ) => {
-	if (apiUrl) {
-		backendApi.defaults.baseURL = apiUrl;
+	if (anotherApi) {
+		backendApi.defaults.baseURL = "";
 	}
 
 	try {
@@ -24,10 +24,10 @@ export const getData = async <T>(
 export const useData = <T>(
 	endpoint: string,
 	config: AxiosRequestConfig = {},
-	apiUrl: string | null = null
+	anotherApi: string | null = null
 ) => {
-	if (apiUrl) {
-		backendApi.defaults.baseURL = apiUrl;
+	if (anotherApi) {
+		backendApi.defaults.baseURL = "";
 	}
 
 	return backendApi

@@ -1,0 +1,16 @@
+.productsWrapper {
+	gap: 16px;
+	display: flex;
+	flex-direction: column;
+}
+
+.products {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(30%, 360px));
+	gap: 32px;
+	justify-content: space-between;
+}
+
+.loader {
+	align-self: center;
+}

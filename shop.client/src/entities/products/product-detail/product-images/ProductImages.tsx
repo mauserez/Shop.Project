@@ -48,7 +48,13 @@ export const ProductImages = (props: ProductImagesProps) => {
 			>
 				{images.map((image) => (
 					<SwiperSlide key={image.id}>
-						<img className={s.swiperImg} src={image.url} />
+						<Image
+							height={300}
+							width={300}
+							alt="Фото товара"
+							className={s.swiperImg}
+							src={image.url}
+						/>
 					</SwiperSlide>
 				))}
 			</Swiper>
@@ -64,7 +70,13 @@ export const ProductImages = (props: ProductImagesProps) => {
 				>
 					{images.map((image) => (
 						<SwiperSlide key={image.id}>
-							<img className={s.swiperImg} src={image.url} />
+							<Image
+								width={100}
+								height={100}
+								alt="Фото товара"
+								className={s.swiperImg}
+								src={image.url}
+							/>
 						</SwiperSlide>
 					))}
 				</Swiper>

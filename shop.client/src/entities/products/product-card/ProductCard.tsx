@@ -1,14 +1,14 @@
 import { ComponentProps } from "react";
 import Image from "next/image";
 import { IProduct } from "@SharedTypes";
-import { BiComment, BiSolidChat } from "react-icons/bi";
-
-import clsx from "clsx";
-import s from "./Product.module.css";
+import { BiSolidChat } from "react-icons/bi";
 import { FaRubleSign } from "react-icons/fa";
 
-type ProductProps = { product: IProduct } & ComponentProps<"div">;
-export const Product = (props: ProductProps) => {
+import clsx from "clsx";
+import s from "./ProductCard.module.css";
+
+type ProductCardProps = { product: IProduct } & ComponentProps<"div">;
+export const ProductCard = (props: ProductCardProps) => {
 	const { product, className = "", ...otherProps } = props;
 	const imgUrl = product?.thumbnail?.url;
 	const imgPLaceholder = "/img/product-placeholder.png";
@@ -19,9 +19,8 @@ export const Product = (props: ProductProps) => {
 		<div className={clsx(s.product, className)} {...otherProps}>
 			<div className={s.image}>
 				<Image
-					style={{ objectFit: "cover" }}
-					sizes="100%"
-					fill={true}
+					width={330}
+					height={330}
 					priority={true}
 					src={src}
 					alt="Обложка продукта"

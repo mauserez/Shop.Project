@@ -13,9 +13,9 @@ export const Header = () => {
 				<Link href={"/"}>
 					<Button>Главная</Button>
 				</Link>
-				<Link href={"/product-list"}>
+				<a href={"/product-list"}>
 					<Button>Список продуктов</Button>
-				</Link>
+				</a>
 				<Link href={ADMIN_URL}>
 					<Button>Админка</Button>
 				</Link>

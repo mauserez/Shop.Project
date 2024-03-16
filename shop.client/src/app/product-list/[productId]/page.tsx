@@ -1,4 +1,4 @@
-import { ProductInfo } from "@/entities/products";
+import { ProductDetail } from "@/widgets/product-detail/ProductDetail";
 import { notFound } from "next/navigation";
 
 export default function ProductInfoPage(props: {
@@ -12,5 +12,5 @@ export default function ProductInfoPage(props: {
 		notFound();
 	}
 
-	return <ProductInfo productId={params.productId} />;
+	return <ProductDetail productId={params.productId} />;
 }

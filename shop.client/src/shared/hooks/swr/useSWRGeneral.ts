@@ -1,21 +1,24 @@
 "use client";
 
+import { AxiosRequestConfig } from "axios";
 import useSWR, { SWRConfiguration } from "swr";
 
-import { fetcher } from "./fetcher";
+import { getFetcher } from "./fetcher";
 
 export const useSWRGeneral = <T>(
 	endpoint: string,
-	paramsString?: string | null,
+	axiosConfig: AxiosRequestConfig = {},
 	refresh: number = 0,
 	swrConfig?: SWRConfiguration,
 	apiUrl?: string | null
 ) => {
+	const revalidateOnlyOnRefresh = !!!refresh;
+	const refreshMs = refresh * 1000;
 	const config = {
-		refreshInterval: refresh * 1000,
-		revalidateOnFocus: false,
+		refreshInterval: refreshMs,
+		revalidateOnFocus: revalidateOnlyOnRefresh,
 		...swrConfig,
 	} as SWRConfiguration;
 
-	return useSWR([endpoint, paramsString, apiUrl], fetcher<T>, config);
+	return useSWR([endpoint, axiosConfig, apiUrl], getFetcher<T>, config);
 };

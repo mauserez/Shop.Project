@@ -1,34 +1,32 @@
 import { backendApi } from "@/shared/axios/backend";
-import queryString from "query-string";
+import { AxiosRequestConfig } from "axios";
 
-type GetDataOptionsType = [string, string | {}, string];
+type GetDataOptionsType = [string, AxiosRequestConfig, string];
 
-export const fetcher = async <T>(options: GetDataOptionsType) => {
-	const [endpoint, params, apiUrl] = options;
-
-	const prms = typeof params === "string" ? queryString.parse(params) : params;
+export const getFetcher = async <T>(options: GetDataOptionsType) => {
+	const [endpoint, axiosConfig, apiUrl] = options;
 
 	if (apiUrl) {
 		backendApi.defaults.baseURL = apiUrl;
 	}
 
-	try {
-		const result = await backendApi.get<T>(endpoint, { params: prms });
+	/* try {
+		const result = await backendApi.get<T>(endpoint, axiosConfig);
 		const data = result.data;
 
 		return data;
 	} catch (error) {
 		return null;
-	}
+	} */
 
-	/* return backendApi
-        .get<T>(endpoint, { params: prms })
-        .then((res) => {
-            return res.data;
-        })
+	return backendApi
+		.get<T>(endpoint, axiosConfig)
+		.then((res) => {
+			return res.data;
+		})
 
-        .catch((e) => {
-            console.log(e);
-            return null;
-        }); */
+		.catch((e) => {
+			console.log(e);
+			return null;
+		});
 };

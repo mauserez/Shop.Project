@@ -1,6 +1,5 @@
 import { IProduct } from "@SharedTypes";
 import { getData } from "@/shared/helpers/get";
-import { calcCountAndSum } from "@/entities/products/helpers";
 import { ADMIN_URL } from "@/shared/api-const";
 import { Button } from "@/shared/ui/button/Button";
 import Link from "next/link";
@@ -9,6 +8,9 @@ import s from "./page.module.css";
 
 export default async function Home() {
 	const allProducts = await getData<IProduct[]>("/products");
+
+	console.log(allProducts);
+
 	const countAndSum = calcCountAndSum(allProducts || []);
 
 	return (
@@ -31,3 +33,15 @@ export default async function Home() {
 		</section>
 	);
 }
+
+const calcCountAndSum = (products: IProduct[] = []) => {
+	let count = 0;
+	let priceSum = 0;
+
+	products.map((product) => {
+		count++;
+		priceSum += product.price;
+	});
+
+	return { count, priceSum };
+};

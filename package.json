@@ -4,10 +4,11 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"client": "cd shop.client && npm run dev",
-		"server": "nodemon index.ts",
 		"start": "concurrently \"npm run server\" \"npm run client\"",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start_production": "concurrently \"npm run server\" \"npm run client_production\"",
+		"server": "nodemon index.ts",
+		"client": "cd shop.client && npm run dev",
+		"client_production": "cd shop.client && npm run start"
 	},
 	"author": "skillfactory",
 	"license": "ISC",
@@ -28,6 +29,7 @@
 		"mysql2": "^3.9.2",
 		"query-string": "^9.0.0",
 		"react-icons": "^5.0.1",
+		"react-spinners": "^0.13.8",
 		"swr": "^2.2.5"
 	},
 	"devDependencies": {
