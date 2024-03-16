@@ -3,6 +3,7 @@
 	flex-direction: column;
 	gap: 16px;
 }
+
 .mainFields {
 	display: flex;
 	gap: 16px;
@@ -18,24 +19,4 @@
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-}
-
-.formItem input,
-.formItem input:-webkit-autofill,
-.formItem input:-webkit-autofill:hover,
-.formItem input:-webkit-autofill:focus,
-.formItem input:-webkit-autofill:active,
-.formItem input:-webkit-autofill::first-line,
-.formItem textarea {
-	min-height: 40px;
-	border-radius: 9px;
-	background-color: #fff;
-	outline: none;
-	border: none;
-	color: #666;
-	padding: 16px;
-	font-size: 16px;
-	font-family: var(--font-inter);
-	-webkit-box-shadow: inset 0 0 0 50px #fff;
-	-webkit-text-fill-color: #000;
 }

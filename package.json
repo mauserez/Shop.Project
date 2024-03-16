@@ -4,11 +4,10 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "concurrently \"npm run server\" \"npm run client\"",
-		"start_production": "concurrently \"npm run server\" \"npm run client_production\"",
-		"server": "nodemon index.ts",
-		"client": "cd shop.client && npm run dev",
-		"client_production": "cd shop.client && npm run start"
+		"start_dev": "concurrently \"npm run server\" \"npm run client\"",
+		"client_dev": "cd shop.client && npm run dev",
+		"server": "nodemon index.ts"
+
 	},
 	"author": "skillfactory",
 	"license": "ISC",

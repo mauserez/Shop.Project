@@ -2,13 +2,14 @@
 import { IProduct } from "@SharedTypes";
 
 import { useSWRGeneral } from "@/shared/hooks/swr/useSWRGeneral";
-import { ComponentProps, useEffect, useState } from "react";
+import { ComponentProps, useEffect } from "react";
 import { CommentForm, Comments, ProductImages, SimilarProducts } from "..";
 
 import { notFound } from "next/navigation";
 import { FaRubleSign } from "react-icons/fa";
-import s from "./ProductInfo.module.css";
+
 import clsx from "clsx";
+import s from "./ProductInfo.module.css";
 
 type ProductInfoProps = {
 	productId: string;

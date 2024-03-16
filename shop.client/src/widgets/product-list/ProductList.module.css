@@ -1,0 +1,35 @@
+.productsWrapper {
+	gap: 16px;
+	display: flex;
+	flex-direction: column;
+}
+
+.products {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+	gap: 32px;
+
+	@media screen and (max-width: 1208px) {
+		justify-content: center;
+	}
+}
+
+.loader {
+	align-self: center;
+}
+
+.productFilter {
+	display: flex;
+	gap: 16px;
+	margin-bottom: 24px;
+
+	.submitButton {
+		align-self: flex-end;
+	}
+
+	.formItem {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+}

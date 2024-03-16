@@ -1,15 +1,13 @@
 import { IProduct } from "@SharedTypes";
 import { getData } from "@/shared/helpers/get";
 import { ADMIN_URL } from "@/shared/api-const";
-import { Button } from "@/shared/ui/button/Button";
+import { Button } from "@/shared/ui";
 import Link from "next/link";
 
 import s from "./page.module.css";
 
 export default async function Home() {
 	const allProducts = await getData<IProduct[]>("/products");
-
-	console.log(allProducts);
 
 	const countAndSum = calcCountAndSum(allProducts || []);
 

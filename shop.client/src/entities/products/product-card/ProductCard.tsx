@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
-import Image from "next/image";
 import { IProduct } from "@SharedTypes";
+
+import Image from "next/image";
 import { BiSolidChat } from "react-icons/bi";
 import { FaRubleSign } from "react-icons/fa";
 

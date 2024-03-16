@@ -1,26 +1,21 @@
 "use client";
+import { ComponentProps, useState } from "react";
 
 import { API_URL } from "@/shared/api-const";
 import { IProduct } from "@SharedTypes";
-
-import { ComponentProps, useState } from "react";
-import { ChangeEvent } from "react";
 
 import axios from "axios";
 import { KeyedMutator } from "swr";
 import { errorText } from "@/shared/axios/error";
 
-import { Button } from "@/shared/ui/button/Button";
+import { FormItemChangeEvent } from "@/shared/ui/types";
+import { Button, Input, TextArea } from "@/shared/ui";
 import s from "./CommentForm.module.css";
 
 type CommentFormProps = ComponentProps<"form"> & {
 	productId: string;
 	refreshComments: KeyedMutator<IProduct | null>;
 };
-
-type FormItemChangeEvent =
-	| ChangeEvent<HTMLInputElement>
-	| ChangeEvent<HTMLTextAreaElement>;
 
 export const CommentForm = (props: CommentFormProps) => {
 	const { productId, refreshComments, ...formProps } = props;
@@ -41,14 +36,14 @@ export const CommentForm = (props: CommentFormProps) => {
 	return (
 		<form
 			className={s.form}
-			{...formProps}
 			method="POST"
 			action={`${API_URL}/comments`}
+			{...formProps}
 		>
 			<div className={s.mainFields}>
 				<div className={s.formItem}>
 					<label>Заголовок</label>
-					<input
+					<Input
 						onChange={handleFormItem}
 						autoComplete="off"
 						value={commentValues.name}
@@ -56,13 +51,14 @@ export const CommentForm = (props: CommentFormProps) => {
 						name="name"
 						type="text"
 						placeholder="Введите заголовок"
-					></input>
+					/>
 				</div>
 
 				<div className={s.formItem}>
 					<label>E-mail</label>
-					<input
+					<Input
 						onChange={handleFormItem}
+						role="presentation"
 						autoComplete="off"
 						value={commentValues.email}
 						required
@@ -75,21 +71,21 @@ export const CommentForm = (props: CommentFormProps) => {
 
 			<div className={s.formItem}>
 				<label>Текст комментария</label>
-				<textarea
+				<TextArea
 					onChange={handleFormItem}
 					value={commentValues.body}
 					required
 					name="body"
 					placeholder="Введите текст комментария"
 					rows={4}
-				></textarea>
+				></TextArea>
 			</div>
 
 			<input
 				readOnly
-				style={{ display: "none" }}
 				name="productId"
 				value={productId}
+				style={{ display: "none" }}
 			/>
 			<Button
 				onClick={(e) => {
