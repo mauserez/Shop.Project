@@ -15,7 +15,8 @@
 		"react-dom": "^18",
 		"sharp": "^0.33.2",
 		"swiper": "^11.0.7",
-		"swr": "^2.2.5"
+		"swr": "^2.2.5",
+		"yup": "^1.4.0"
 	},
 	"devDependencies": {
 		"@types/node": "^20.11.27",

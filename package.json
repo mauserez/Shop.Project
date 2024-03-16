@@ -4,10 +4,9 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start_dev": "concurrently \"npm run server\" \"npm run client\"",
+		"start_dev": "concurrently \"npm run server\" \"npm run client_dev\"",
 		"client_dev": "cd shop.client && npm run dev",
 		"server": "nodemon index.ts"
-
 	},
 	"author": "skillfactory",
 	"license": "ISC",

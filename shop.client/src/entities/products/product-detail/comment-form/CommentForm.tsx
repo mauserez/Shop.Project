@@ -7,10 +7,17 @@ import { IProduct } from "@SharedTypes";
 import axios from "axios";
 import { KeyedMutator } from "swr";
 import { errorText } from "@/shared/axios/error";
+import { object, string } from "yup";
 
 import { FormItemChangeEvent } from "@/shared/ui/types";
 import { Button, Input, TextArea } from "@/shared/ui";
 import s from "./CommentForm.module.css";
+
+const commentSchema = object({
+	body: string().trim().required("Введите текст комментария"),
+	email: string().email("Введите корректный Email").required("Введите Email"),
+	name: string().trim().required("Введите заголовок комментария"),
+});
 
 type CommentFormProps = ComponentProps<"form"> & {
 	productId: string;
@@ -27,10 +34,12 @@ export const CommentForm = (props: CommentFormProps) => {
 	};
 
 	const [commentValues, setCommentValues] = useState(initValues);
+	const [error, setError] = useState("");
 
 	const handleFormItem = (e: FormItemChangeEvent) => {
 		const formItemValues = { [e.target.name]: e.target.value };
 		setCommentValues({ ...commentValues, ...formItemValues });
+		setError("");
 	};
 
 	return (
@@ -87,23 +96,33 @@ export const CommentForm = (props: CommentFormProps) => {
 				value={productId}
 				style={{ display: "none" }}
 			/>
+
 			<Button
 				onClick={(e) => {
 					e.preventDefault();
-					axios
-						.post(`${API_URL}/comments`, commentValues)
-						.then((res) => {
-							refreshComments();
-							setCommentValues(initValues);
+
+					commentSchema
+						.validate(commentValues)
+						.then(() => {
+							axios
+								.post(`${API_URL}/comments`, commentValues)
+								.then(() => {
+									refreshComments();
+									setCommentValues(initValues);
+								})
+								.catch((e) => {
+									console.log(errorText(e));
+								});
 						})
 						.catch((e) => {
-							alert(errorText(e));
+							setError(e.errors[0]);
 						});
 				}}
 				type="submit"
 			>
 				Сохранить
 			</Button>
+			<div className={s.error}>{error}</div>
 		</form>
 	);
 };
