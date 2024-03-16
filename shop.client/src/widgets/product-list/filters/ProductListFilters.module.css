@@ -1,0 +1,21 @@
+.productFilter {
+	display: flex;
+	gap: 16px;
+	margin-bottom: 24px;
+
+	.submitButton {
+		align-self: flex-end;
+	}
+
+	.clearButton {
+		justify-self: end;
+		align-self: end;
+		margin-left: auto;
+	}
+
+	.formItem {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+}
