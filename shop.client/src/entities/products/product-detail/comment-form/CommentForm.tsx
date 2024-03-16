@@ -1,3 +1,5 @@
+"use client";
+
 import { API_URL } from "@/shared/api-const";
 import { IProduct } from "@SharedTypes";
 

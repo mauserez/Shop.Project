@@ -15,8 +15,6 @@ import s from "./ProductImages.module.css";
 
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
-export default function App() {}
-
 type ProductImagesProps = ComponentProps<"div"> & {
 	images: IProduct["images"];
 };

@@ -1,7 +1,7 @@
 "use client";
 import { IProduct } from "@SharedTypes";
 import { useSWRGeneral } from "@/shared/hooks/swr/useSWRGeneral";
-import { ComponentProps, useEffect } from "react";
+import { ComponentProps } from "react";
 
 import {
 	CommentForm,
@@ -28,8 +28,6 @@ export const ProductDetail = (props: ProductInfoProps) => {
 		isLoading: isProductLoading,
 		mutate,
 	} = useSWRGeneral<IProduct>(`/products/${productId}`);
-
-	useEffect(() => {});
 
 	if (isProductLoading) {
 		return "Loading...";

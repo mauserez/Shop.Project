@@ -12,5 +12,6 @@ export default function ProductInfoPage(props: {
 		notFound();
 	}
 
+
 	return <ProductDetail productId={params.productId} />;
 }
