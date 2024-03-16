@@ -22,8 +22,6 @@ export const ProductInfo = (props: ProductInfoProps) => {
 		mutate,
 	} = useSWRGeneral<IProduct>(`/products/${productId}`);
 
-	const [comments, setComments] = useState(product?.comments);
-
 	useEffect(() => {});
 
 	if (isProductLoading) {

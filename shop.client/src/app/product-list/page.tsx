@@ -3,6 +3,9 @@ import { Suspense } from "react";
 import { FadeLoader } from "react-spinners";
 import s from "./page.module.css";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 60;
+
 export default async function ProductListPage() {
 	return (
 		<section className={s.section}>
