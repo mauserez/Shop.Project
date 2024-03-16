@@ -4,6 +4,14 @@ Shop.Project.
 Запускается командой
 npm run start_dev - происходит запуск ADMIN + API на localhost + port 3000 + Client на localhost + port 3005
 
+В проекте использованы
+Next JS
+Next JS App Router
+Yup form validation
+Swiper
+SWR
+Sharp
+
 Мои .env
 LOCAL_HOST=localhost
 LOCAL_PATH=localhost
